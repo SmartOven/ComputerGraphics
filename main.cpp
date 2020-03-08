@@ -21,6 +21,10 @@ int main(int argc, char* argv[]) {
 		img1.rotate(0);
 	if (argv[3][0] == '4')
 		img1.rotate(1);
+	else {
+		cout << "Unsupported type of operation\n";
+		return 0;
+	}
 	img1.write();
 	return 0;
 }

@@ -37,7 +37,6 @@ private:
 	FILE* file_in;
 	FILE* file_out;
 	char mode[3]; // P5 or P6
-	std::vector <char> _w, _h, _d;
 	size_t w, h, d; // width, heigth and color depth
 	std::vector <std::vector <byte>> bnw; // for P5
 	std::vector <std::vector <Pixel>> rgb; // for P6

@@ -35,39 +35,41 @@ void Image::_read(char* in) {
 	}
 	fseek(this->file_in, 0, SEEK_END); // end of file
 	big current_size = ftell(this->file_in); // size of file
-	if (current_size < 16) { // not enough even for header
-		cout << "File is too small\n";
-		exit(1);
-	}
 	fseek(this->file_in, 0, SEEK_SET); // start of file
 
 	// Reading Header
+	std::vector <char> _w, _h, _d;
 	fread(this->mode, 1, 2, this->file_in); // reading format (P5 or P6)
 	fseek(this->file_in, 1, SEEK_CUR); // passing '\n'
 	char buffer = fgetc(this->file_in);
 	while (buffer != ' ') { // reading W
-		this->_w.push_back(buffer);
+		_w.push_back(buffer);
 		buffer = fgetc(this->file_in);
 	}
 	buffer = fgetc(this->file_in);
 	while (buffer != '\n') { // reading H
-		this->_h.push_back(buffer);
+		_h.push_back(buffer);
 		buffer = fgetc(this->file_in);
 	}
 	buffer = fgetc(this->file_in);
 	while (buffer != '\n') { // reading D
-		this->_d.push_back(buffer);
+		_d.push_back(buffer);
 		buffer = fgetc(this->file_in);
 	}
-	this->w = to_int(this->_w);
-	this->h = to_int(this->_h);
-	this->d = to_int(this->_d);
+	this->w = to_int(_w);
+	this->h = to_int(_h);
+	this->d = to_int(_d);
 	
 	big required_size = ftell(this->file_in);
 	if (this->mode[1] == '5')
 		required_size += (big)(this->w * this->h);
-	else
+	else if (this->mode[1] == '6')
 		required_size += (big)(3 * this->w * this->h);
+	else {
+		cout << "Unsupported format\n"; // if format is not P5 or P6
+		fclose(this->file_in);
+		exit(1);
+	}
 	if (current_size < required_size) {
 		cout << "File size is too small\n";
 		exit(1);
@@ -80,7 +82,7 @@ void Image::_read(char* in) {
 			}
 		}
 	}
-	else if (this->mode[1] == '6') {
+	else {
 		this->rgb.assign(h, std::vector<Pixel>(w)); // setting size of vector
 		for (size_t i = 0; i < this->h; i++) {
 			for (size_t j = 0; j < this->w; j++) {
@@ -89,10 +91,6 @@ void Image::_read(char* in) {
 				this->rgb[i][j].b = fgetc(this->file_in);
 			}
 		}
-	}
-	else {
-		cout << "Unsupported format\n"; // if format is not P5 or P6
-		exit(1);
 	}
 	fclose(this->file_in);
 };
