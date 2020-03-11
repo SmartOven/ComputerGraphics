@@ -44,9 +44,9 @@ void Image::_read(char* in) {
 
 	big required_size;
 	if (this->mode[0] == 'P' && this->mode[1] == '5')
-		required_size = (big)(this->w * this->h);
-	else if (this->mode[0] == 'P' && this->mode[1] == '6')
 		required_size = (big)(3 * this->w * this->h);
+	else if (this->mode[0] == 'P' && this->mode[1] == '6')
+		required_size = (big)(this->w * this->h);
 	else {
 		cout << "Unsupported format\n"; // if format is not P5 or P6
 		fclose(this->file_in);
