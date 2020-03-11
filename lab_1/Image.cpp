@@ -41,13 +41,7 @@ void Image::_read(char* in) {
 	std::vector <char> _w, _h, _d;
 	fread(this->mode, 1, 2, this->file_in); // reading format (P5 or P6)
 	fseek(this->file_in, 1, SEEK_CUR); // passing '\n'
-
-	big required_size;
-	if (this->mode[0] == 'P' && this->mode[1] == '5')
-		required_size = (big)(3 * this->w * this->h);
-	else if (this->mode[0] == 'P' && this->mode[1] == '6')
-		required_size = (big)(this->w * this->h);
-	else {
+	if (this->mode[0] != 'P' || (this->mode[1] != '5' && this->mode[1] != '6')) {
 		cout << "Unsupported format\n"; // if format is not P5 or P6
 		fclose(this->file_in);
 		exit(1);
@@ -71,6 +65,12 @@ void Image::_read(char* in) {
 	this->w = to_int(_w);
 	this->h = to_int(_h);
 	this->d = to_int(_d);
+	
+	big required_size;
+	if (this->mode[0] == 'P' && this->mode[1] == '5')
+		required_size = (big)(this->w * this->h);
+	else
+		required_size = (big)(3 * this->w * this->h);
 	
 	required_size += ftell(this->file_in);
 	if (current_size < required_size) {
