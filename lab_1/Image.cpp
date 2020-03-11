@@ -154,7 +154,7 @@ void Image::inversion() {
 			}
 };
 
-void Image::vertical_display() {
+void Image::horizontal_display() {
 	if (this->mode[1] == '5')
 		for (size_t i = 0; i < this->h; i++)
 			for (size_t j = 0; j < this->w / 2; j++)
@@ -168,7 +168,7 @@ void Image::vertical_display() {
 			}
 };
 
-void Image::horizontal_display() {
+void Image::vertical_display() {
 	if (this->mode[1] == '5')
 		for (size_t i = 0; i < this->h / 2; i++)
 			for (size_t j = 0; j < this->w; j++)
