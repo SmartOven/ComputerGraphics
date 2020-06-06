@@ -1,4 +1,4 @@
-# Using instruction
+# Using manual
 Type in console:  
 `program.exe <input_file_name> <output_file_name> <line_brightness> <line_thickness> <start_x> <start_y> <end_x> <end_y> <gamma>`, where:
 * <line_brightness>: integer between 0 and 255;
