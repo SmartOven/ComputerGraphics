@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     }
     catch (const std::exception& error) { // неправильные аргументы
 	    std::cerr << error.what() << "\n";
-        return 2;
+        return 1;
     }
     if(argc == 10) {
         try {
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
         }
         catch (const std::exception& error) { // неправильные аргументы
 	        std::cerr << error.what() << std::endl;
-			return 3;
+			return 1;
         }
     }
 
@@ -41,17 +41,18 @@ int main(int argc, char *argv[]) {
     }
     catch (const std::exception& error) { // ошибка, связанная с выделением памяти/открытием файла/чтением файла
 	    std::cerr << error.what() << "\n";
-        return 4;
+        return 1;
     }
 
     img->draw_line(Point{ x_s, y_s }, Point{ x_f, y_f }, thickness, brightness, gamma, SRGB);
     try {
         img->write(fout);
-        delete img;
     }
     catch (const std::exception& error) { // ошибка открытия файла/записи в файл
 	    std::cerr << error.what() << "\n";
-        return 5;
+        delete img;
+        return 1;
     }
+    delete img;
     return 0;
 }
