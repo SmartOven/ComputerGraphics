@@ -1,10 +1,8 @@
 #include <iostream>
 #include <string>
-#include <ctime>
 #include "Image.h"
 
 int main(int argc, char *argv[]) {
-    srand(time(nullptr));
     if(argc != 7) { // аргументов не 7
         std::cerr << "Invalid command line arguments!" << "\n";
         return 1;

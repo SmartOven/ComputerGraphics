@@ -1,5 +1,6 @@
 #include "Image.h"
 #include <cmath>
+#include <ctime>
 #include <fstream>
 
 std::vector<std::vector <int>> ordered_dithering = {
@@ -27,6 +28,8 @@ Point::Point(double x, double y) {
 
 // Конструктор
 Image::Image(const std::string& filename, bool gradient, double gamma, bool SRGB) {
+	// Задаем seed для rand()
+    srand(time(nullptr));
     // Открываем файл
 	std::ifstream fin(filename, std::ios::binary);
     if (!fin.is_open()) // файл не открылся
