@@ -407,9 +407,9 @@ void Pixel::RGB_to_YCbCr_601() {
 	const double Cr = (r - Y) / (2.0 * (1.0 - coef_r));
 
 	// Output
-    this->a = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(Y * 255))));
-    this->b = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>((Cb + 0.5) * 255))));
-    this->c = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>((Cr + 0.5) * 255))));
+    this->a = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(std::round(Y * 255)))));
+    this->b = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(std::round((Cb + 0.5) * 255)))));
+    this->c = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(std::round((Cr + 0.5) * 255)))));
 }
 
 void Pixel::YCbCr_601_to_RGB() {
@@ -429,9 +429,9 @@ void Pixel::YCbCr_601_to_RGB() {
 	const double b = Y + (2.0 - 2.0 * coef_b) * Cb;
 
 	// Output
-    this->a = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(r * 255))));
-    this->b = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(g * 255))));
-    this->c = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(b * 255))));
+    this->a = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(std::round(r * 255)))));
+    this->b = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(std::round(g * 255)))));
+    this->c = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(std::round(b * 255)))));
 }
 
 void Pixel::RGB_to_YCbCr_709() {
@@ -451,9 +451,9 @@ void Pixel::RGB_to_YCbCr_709() {
 	const double Cr = (r - Y) / (2.0 * (1.0 - coef_r));
 
 	// Output
-    this->a = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(Y * 255))));
-    this->b = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>((Cb + 0.5) * 255))));
-    this->c = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>((Cr + 0.5) * 255))));
+    this->a = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(std::round(Y * 255)))));
+    this->b = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(std::round((Cb + 0.5) * 255)))));
+    this->c = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(std::round((Cr + 0.5) * 255)))));
 }
 
 void Pixel::YCbCr_709_to_RGB() {
@@ -473,7 +473,7 @@ void Pixel::YCbCr_709_to_RGB() {
 	const double b = Y + (coef_b * -2.0 + 2.0) * Cb;
 
 	// Output
-    this->a = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(r * 255))));
-    this->b = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(g * 255))));
-    this->c = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(b * 255))));
+    this->a = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(std::round(r * 255)))));
+    this->b = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(std::round(g * 255)))));
+    this->c = static_cast<unsigned char>(std::min(255, std::max(0, static_cast<int>(std::round(b * 255)))));
 }
