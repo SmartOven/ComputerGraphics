@@ -1,13 +1,9 @@
-# ComputerGraphicsLabs
-Here I will upload my labs
-## First lab
-* Image invertion
-  > a.exe try.pnm new.pnm 0
-* Image horizontal display
-  > a.exe try.pnm new.pnm 1
-* Image vertical display
-  > a.exe try.pnm new.pnm 2
-* Image rotate clock-wise
-  > a.exe try.pnm new.pnm 3
-* Image rotate counterclock-wise
-  > a.exe try.pnm new.pnm 4
+# Using manual
+Type in console:  
+`program.exe -f <from_color_space> -t <to_color_space> -i <count> <input_file_name> -o <count> <output_file_name>`, where:
+* `<from_color_space>`: string, included in { RGB, HSL, HSV, YCbCr.601, YCbCr.709, YCoCg, CMY }
+* `<to_color_space>`: string, included in { RGB, HSL, HSV, YCbCr.601, YCbCr.709, YCoCg, CMY }
+* `<count>`: integer, 1 or 3 
+* `<input_file_name>`: string
+* `<count>`: integer, 1 or 3 
+* `<output_file_name>`: string
