@@ -418,7 +418,7 @@ void Pixel::YCbCr_601_to_RGB() {
 	const double Cb = b / 255.0 - 0.5;
 	const double Cr = c / 255.0 - 0.5;
 	
-    // Inverted coefficients for R G B
+    // Coefficients for R G B
     const double coef_r = 0.299;
 	const double coef_g = 0.587;
 	const double coef_b = 0.114;
@@ -462,10 +462,10 @@ void Pixel::YCbCr_709_to_RGB() {
 	const double Cb = b / 255.0 - 0.5;
 	const double Cr = c / 255.0 - 0.5;
 
-    // Inverted coefficients for R G B
-	const double coef_b = 0.0722;
-	const double coef_r = 0.2126;
-	const double coef_g = 0.7152;
+    // Coefficients for R G B
+    const double coef_r = 0.2126;
+    const double coef_g = 0.7152;
+    const double coef_b = 0.0722;
 
 	// R G B
 	const double r = Y + (coef_r * -2.0 + 2.0) * Cr;
