@@ -68,12 +68,11 @@ Image::Image(const std::string& filename, int count) {
         if(files.size() != 3)
             throw std::runtime_error("unknown error during name generation");
 		
-        this->image.assign(this->height, std::vector <Pixel>(this->width));
-        for(int i = 0; i < 3; i++) {
+        for(int k = 0; k < 3; k++) {
         	// Открываем файл
-	        std::ifstream fin(files[i], std::ios::binary);
+	        std::ifstream fin(files[k], std::ios::binary);
             if(!fin.is_open()) 
-                throw std::runtime_error("failed to open file " + files[i]);
+                throw std::runtime_error("failed to open file " + files[k]);
 
         	// Читаем хедер
             char ch[2];
@@ -83,19 +82,23 @@ Image::Image(const std::string& filename, int count) {
             fin >> this->width >> this->height >> this->color_depth;
             if (this->color_depth != 255)
                 throw std::runtime_error("only 255 color depth is supported");
-
+            if (k == 0) {
+                this->image.assign(this->height, std::vector <Pixel>(this->width));
+            }
             // Читаем пиксели
             char color;
             fin.read(&color, 1);
             for (int i = 0; i < this->height; i++) {
                 for (int j = 0; j < this->width; j++) {
                     fin.read(&color, sizeof(unsigned char));
-                    if (i == 0)
+                    if (k == 0)
                         this->image[i][j].a = color;
-                    if (i == 1)
+                    if (k == 1)
                         this->image[i][j].b = color;
-                    if (i == 2)
+                    if (k == 2)
                         this->image[i][j].c = color;
+                    fin.read(&color, sizeof(unsigned char));
+                    fin.read(&color, sizeof(unsigned char));
                 }
             }
             fin.close();
@@ -126,21 +129,38 @@ void Image::write(std::string filename, int count) {
         if(files.size() != 3)
             throw std::runtime_error("unknown error during name generation");
     	
-        for(int i = 0; i < 3; i ++) {
-            std::ofstream fout(files[i], std::ios::binary);
+        for(int k = 0; k < 3; k++) {
+            std::ofstream fout(files[k], std::ios::binary);
             if(!fout.is_open()) {
-                throw std::runtime_error("cannot open output file " + files[i]);
+                throw std::runtime_error("cannot open output file " + files[k]);
             }
         	
             fout << "P5\n" << width << ' ' << height << '\n' << color_depth << '\n';
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    if (i == 0)
+            if (k == 0) {
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
                         fout << image[i][j].a;
-                    if (i == 1)
+                        fout << image[i][j].a;
+                        fout << image[i][j].a;
+                    }
+                }
+            }
+            else if (k == 1) {
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
                         fout << image[i][j].b;
-                    if (i == 2)
+                        fout << image[i][j].b;
+                        fout << image[i][j].b;
+                    }
+                }
+            }
+            else if (k == 2) {
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
                         fout << image[i][j].c;
+                        fout << image[i][j].c;
+                        fout << image[i][j].c;
+                    }
                 }
             }
             fout.flush();
