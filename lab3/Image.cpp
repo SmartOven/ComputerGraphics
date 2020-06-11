@@ -51,10 +51,14 @@ Image::Image(const std::string& filename, bool gradient, double gamma, bool SRGB
             if (!gradient) {
                 fin.read(&pixel, sizeof(unsigned char));
                 double old = static_cast<double>(static_cast<unsigned char>(pixel)) / this->color_depth;
-                if (SRGB) // SRGB гамма-коррекция
+                if (SRGB) { // SRGB гамма-коррекция
+                    if (gamma <= 0.0)
+                        gamma = 2.4;
                     old = (old < 0.04045 ? old / 12.92 : pow((old + 0.055) / 1.055, gamma));
-                else
+                }
+                else {
                     old = pow(old, gamma);
+                }
                 this->image[i][j] = old;
             }
             else {
@@ -96,37 +100,47 @@ double sum_between_0_and_1(double A, double B) {
     return A + B;
 }
 
+double nearest_color(int bit, double pixel_color) {
+    int temp = bit;
+    const auto p_c = static_cast<unsigned char>(pixel_color * 255);
+    unsigned char Result = p_c;
+    while (temp < 8)
+    {
+        Result = Result >> bit;
+        Result += (p_c >> (8 - bit)) << (8 - bit);
+        temp += bit;
+    }
+    return Result;
+}
+
 // Дизеринг
 void Image::dithering(int bit, int type) {
-    auto nearest_color = [bit](double pixel_color) -> double {
-        return round(pixel_color * ( (1 << bit) - 1 )) / ( (1 << bit) - 1 );
-    };
     errors.assign(height, std::vector<double>(width, 0));
 
     // Без дизиринга
     if(type == 0) {
         for(int i = 0; i < height; i++)
             for(int j = 0; j < width; j++)
-                image[i][j] = nearest_color(image[i][j]);
+                image[i][j] = nearest_color(bit, image[i][j]);
     }
     // Ordered (8x8)
     else if(type == 1) {
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++)
-                image[i][j] = nearest_color(sum_between_0_and_1(image[i][j], ((ordered_dithering[i % 8][j % 8] / 64.0) - 0.5)));
+                image[i][j] = nearest_color(bit, sum_between_0_and_1(image[i][j], ((ordered_dithering[i % 8][j % 8] / 64.0) - 0.5)));
     }
     // Random
     else if(type == 2) {
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++)
-                image[i][j] = nearest_color(sum_between_0_and_1(image[i][j], (rand() * 1.0 / (RAND_MAX - 1) - 0.5)));
+                image[i][j] = nearest_color(bit, sum_between_0_and_1(image[i][j], (rand() * 1.0 / (RAND_MAX - 1) - 0.5)));
     }
     // Floyd–Steinberg
     else if(type == 3) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 image[i][j] = sum_between_0_and_1(image[i][j], errors[i][j]);
-                const double color = nearest_color(image[i][j]);
+                const double color = nearest_color(bit, image[i][j]);
                 const double error = (image[i][j] - color) / 16.0;
                 image[i][j] = color;
                 if (j + 1 < width)
@@ -146,7 +160,7 @@ void Image::dithering(int bit, int type) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 image[i][j] = sum_between_0_and_1(image[i][j], errors[i][j]);
-                const double color = nearest_color(image[i][j]);
+                const double color = nearest_color(bit, image[i][j]);
                 const double error = (image[i][j] - color) / 48.0;
                 image[i][j] = color;
                 if (j + 1 < width)
@@ -183,7 +197,7 @@ void Image::dithering(int bit, int type) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 image[i][j] = sum_between_0_and_1(image[i][j], errors[i][j]);
-                const double color = nearest_color(image[i][j]);
+                const double color = nearest_color(bit, image[i][j]);
                 const double error = (image[i][j] - color) / 32.0;
                 image[i][j] = color;
                 if (j + 1 < width)
@@ -217,7 +231,7 @@ void Image::dithering(int bit, int type) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 image[i][j] = sum_between_0_and_1(image[i][j], errors[i][j]);
-                const double color = nearest_color(image[i][j]);
+                const double color = nearest_color(bit, image[i][j]);
                 const double error = (image[i][j] - color) / 8.0;
                 image[i][j] = color;
                 if (j + 1 < width)
@@ -242,6 +256,6 @@ void Image::dithering(int bit, int type) {
     else if (type == 7) {
 	    for (int i = 0; i < height; i++)
 	        for (int j = 0; j < width; j++)
-	            image[i][j] = nearest_color(sum_between_0_and_1(image[i][j], (halftone[i % 4][j % 4] / 16.0 - 0.5)));
+	            image[i][j] = nearest_color(bit, sum_between_0_and_1(image[i][j], (halftone[i % 4][j % 4] / 16.0 - 0.5)));
     }
 }
