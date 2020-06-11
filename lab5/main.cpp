@@ -14,7 +14,6 @@ int main(int argc, char* argv[]) {
 	std::string output = std::string(argv[2]);
     int type = atoi(argv[3]);
 	if (type < 0 || type > 5) {
-        std::cout << type << "\n";
         std::cerr << "Invalid type of operation!" << "\n";
         return 1;
 	}
@@ -28,14 +27,7 @@ int main(int argc, char* argv[]) {
             return 1;
         }
     }
-
-	/*
-	const std::string input = "wb.pgm";
-	const std::string output = "wb_0.pgm";
-	const int type = 4;
-	const int offset = 50;
-	const double coefficient = 1.25;
-	*/
+	
 	// Работа с объектом класса Image
     Image* img;
     try {

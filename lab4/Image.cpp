@@ -97,8 +97,8 @@ Image::Image(const std::string& filename, int count) {
                         this->image[i][j].b = color;
                     if (k == 2)
                         this->image[i][j].c = color;
-                    fin.read(&color, sizeof(unsigned char));
-                    fin.read(&color, sizeof(unsigned char));
+                    // fin.read(&color, sizeof(unsigned char));
+                    // fin.read(&color, sizeof(unsigned char));
                 }
             }
             fin.close();
@@ -140,8 +140,8 @@ void Image::write(std::string filename, int count) {
                 for (int i = 0; i < height; i++) {
                     for (int j = 0; j < width; j++) {
                         fout << image[i][j].a;
-                        fout << image[i][j].a;
-                        fout << image[i][j].a;
+                        // fout << image[i][j].a;
+                        // fout << image[i][j].a;
                     }
                 }
             }
@@ -149,8 +149,8 @@ void Image::write(std::string filename, int count) {
                 for (int i = 0; i < height; i++) {
                     for (int j = 0; j < width; j++) {
                         fout << image[i][j].b;
-                        fout << image[i][j].b;
-                        fout << image[i][j].b;
+                        // fout << image[i][j].b;
+                        // fout << image[i][j].b;
                     }
                 }
             }
@@ -158,8 +158,8 @@ void Image::write(std::string filename, int count) {
                 for (int i = 0; i < height; i++) {
                     for (int j = 0; j < width; j++) {
                         fout << image[i][j].c;
-                        fout << image[i][j].c;
-                        fout << image[i][j].c;
+                        // fout << image[i][j].c;
+                        // fout << image[i][j].c;
                     }
                 }
             }

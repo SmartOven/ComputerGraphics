@@ -5,12 +5,9 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <iostream>
 
 unsigned char correct_color(unsigned char color, int offset, double coefficient) {
-    /*double corrected_color = (static_cast<int>(color) - offset) * coefficient;
-    if (corrected_color < 0.0) corrected_color = 0.0;
-    else if (corrected_color > 255.0) corrected_color = 255.0;
-    return static_cast<unsigned char>(corrected_color);*/
     int result = (static_cast<double>(color) - offset) * coefficient;
     if (result > 255)
         result = 255;
@@ -138,37 +135,12 @@ void Image::correct_brightness(int type, int offset, double coefficient) {
         }
 	}
 	if (type == 0) {
-        /*for (int i = 0; i < this->height; i++) {
-            for (int j = 0; j < this->width; j++) {
-                this->image[i][j].a = correct_color(this->image[i][j].a, offset, coefficient);
-                this->image[i][j].b = correct_color(this->image[i][j].b, offset, coefficient);
-                this->image[i][j].c = correct_color(this->image[i][j].c, offset, coefficient);
-            }
-        }*/
         if (format_1)
         {
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    /*int result = ((double)image[i][j].a - offset) * coefficient;
-                    if (result > 255)
-                        result = 255;
-                    if (result < 0)
-                        result = 0;
-                    image[i][j].a = result;*/
                     image[i][j].a = correct_color(image[i][j].a, offset, coefficient);
-                    /*result = ((double)image[i][j].b - offset) * coefficient;
-                    if (result > 255)
-                        result = 255;
-                    if (result < 0)
-                        result = 0;
-                    image[i][j].b = result;*/
                     image[i][j].b = correct_color(image[i][j].b, offset, coefficient);
-                    /*result = ((double)image[i][j].c - offset) * coefficient;
-                    if (result > 255)
-                        result = 255;
-                    if (result < 0)
-                        result = 0;
-                    image[i][j].c = result;*/
                     image[i][j].c = correct_color(image[i][j].c, offset, coefficient);
                 }
             }
@@ -186,22 +158,6 @@ void Image::correct_brightness(int type, int offset, double coefficient) {
         }
     }
     if (type == 1) {
-        /*if (this->format_1 == '6') {
-            for (int i = 0; i < this->height; i++) {
-                for (int j = 0; j < this->width; j++) {
-                    this->image[i][j].a = correct_color(this->image[i][j].a, offset, coefficient);
-                }
-            }
-        }
-        else {
-            for (int i = 0; i < this->height; i++) {
-                for (int j = 0; j < this->width; j++) {
-                    this->image[i][j].a = correct_color(this->image[i][j].a, offset, coefficient);
-                    this->image[i][j].b = correct_color(this->image[i][j].b, offset, coefficient);
-                    this->image[i][j].c = correct_color(this->image[i][j].c, offset, coefficient);
-                }
-            }
-        }*/
         if (format_1) {
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
@@ -250,6 +206,7 @@ void Image::correct_brightness(int type, int offset, double coefficient) {
         }
         offset = static_cast<int>(min);
         coefficient = 255.0 / (static_cast<int>(max) - static_cast<int>(min));
+        std::cout << offset << " " << coefficient << "\n";
         for (int i = 0; i < this->height; i++) {
             for (int j = 0; j < this->width; j++) {
                 this->image[i][j].a = correct_color(this->image[i][j].a, offset, coefficient);
@@ -271,6 +228,7 @@ void Image::correct_brightness(int type, int offset, double coefficient) {
         }
         offset = static_cast<int>(min);
         coefficient = 255.0 / (static_cast<int>(max) - static_cast<int>(min));
+        std::cout << offset << " " << coefficient << "\n";
         if (this->format_1 == '6') {
             for (int i = 0; i < this->height; i++) {
                 for (int j = 0; j < this->width; j++) {
@@ -318,7 +276,8 @@ void Image::correct_brightness(int type, int offset, double coefficient) {
 
         offset = static_cast<int>(min_ignored_brightness);
         coefficient = 255.0 / (static_cast<int>(max_ignored_brightness) - static_cast<int>(min_ignored_brightness));
-        for (int i = 0; i < this->height; i++) {
+        std::cout << offset << " " << coefficient << "\n";
+		for (int i = 0; i < this->height; i++) {
             for (int j = 0; j < this->width; j++) {
                 this->image[i][j].a = correct_color(this->image[i][j].a, offset, coefficient);
                 this->image[i][j].b = correct_color(this->image[i][j].b, offset, coefficient);
@@ -354,7 +313,8 @@ void Image::correct_brightness(int type, int offset, double coefficient) {
 
         offset = static_cast<int>(min_ignored_brightness);
         coefficient = 255.0 / (static_cast<int>(max_ignored_brightness) - static_cast<int>(min_ignored_brightness));
-        if (this->format_1 == '6') {
+        std::cout << offset << " " << coefficient << "\n";
+    	if (this->format_1 == '6') {
             for (int i = 0; i < this->height; i++) {
                 for (int j = 0; j < this->width; j++) {
                     this->image[i][j].a = correct_color(this->image[i][j].a, offset, coefficient);
