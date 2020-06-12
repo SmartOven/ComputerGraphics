@@ -383,9 +383,9 @@ void Pixel::RGB_to_YCoCg() {
 	const double b = c * 1.0 / 255;
 
 	// Y Co Cg
-    double y = std::min(0.0, std::max(1.0, static_cast<double>(r / 4 + g / 2 + b / 4)));
-    double co = std::min(0.0, std::max(1.0, static_cast<double>(r / 2 - b / 2 + 0.5)));
-    double cg = std::min(0.0, std::max(1.0, static_cast<double>(-r / 4 + g / 2 - b / 4 + 0.5)));
+    double y = std::min(1.0, std::max(0.0, static_cast<double>(r / 4 + g / 2 + b / 4)));
+    double co = std::min(1.0, std::max(0.0, static_cast<double>(r / 2 - b / 2 + 0.5)));
+    double cg = std::min(1.0, std::max(0.0, static_cast<double>(-r / 4 + g / 2 - b / 4 + 0.5)));
 
 	// Output
     this->a = static_cast<unsigned char>(y * 255);
@@ -400,9 +400,9 @@ void Pixel::YCoCg_to_RGB() {
 	const double cg = c * 1.0 / 255 - 0.5;
 
 	// R G B
-	const double r = std::min(0.0, std::max(1.0, static_cast<double>(y + co - cg)));
-	const double g = std::min(0.0, std::max(1.0, static_cast<double>(y + cg)));
-	const double b = std::min(0.0, std::max(1.0, static_cast<double>(y - co - cg)));
+	const double r = std::min(1.0, std::max(0.0, static_cast<double>(y + co - cg)));
+	const double g = std::min(1.0, std::max(0.0, static_cast<double>(y + cg)));
+	const double b = std::min(1.0, std::max(0.0, static_cast<double>(y - co - cg)));
 
 	// Output
     this->a = static_cast<unsigned char>(r * 255);
