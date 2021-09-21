@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Image.h"
+#include <math.h>
 
 int to_int(std::vector <char>& v) {
 	int result = 0;

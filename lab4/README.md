@@ -1,9 +1,12 @@
-# Using manual
-Type in console:  
-`program.exe -f <from_color_space> -t <to_color_space> -i <count> <input_file_name> -o <count> <output_file_name>`, where:
-* `<from_color_space>`: string, included in { RGB, HSL, HSV, YCbCr.601, YCbCr.709, YCoCg, CMY }
-* `<to_color_space>`: string, included in { RGB, HSL, HSV, YCbCr.601, YCbCr.709, YCoCg, CMY }
-* `<count>`: integer, 1 or 3 
-* `<input_file_name>`: string
-* `<count>`: integer, 1 or 3 
-* `<output_file_name>`: string
+# Лабораторная работа 4: Изучение цветовых пространств
+## **Цель работы**: реализовать программу, которая позволяет проводить преобразования между цветовыми пространствами. Входные и выходные данные могут быть как одним файлом ppm, так и набором из 3 pgm
+## **Описание**: Программа должна быть написана на C/C++ и не использовать внешние библиотеки
+## Аргументы передаются через командную строку:  
+`lab4.exe -f <from_color_space> -t <to_color_space> -i <count> <input_file_name> -o <count> <output_file_name>`, где:
+* <color_space> - RGB / HSL / HSV / YCbCr.601 / YCbCr.709 / YCoCg / CMY
+* <count> - 1 или 3
+* <file_name>:
+    + для count=1 просто имя файла; формат ppm
+    + для count=3 шаблон имени вида <name.ext>, что соответствует файлам <name_1.ext>, <name_2.ext> и <name_3.ext> для каждого канала соответственно; формат pgm  
+### Порядок аргументов (-f, -t, -i, -o) может быть произвольным. Везде 8-битные данные и полный диапазон (0..255, PC range).
+#### Программа должна быть написана на C/C++ и не использовать внешние библиотеки.
